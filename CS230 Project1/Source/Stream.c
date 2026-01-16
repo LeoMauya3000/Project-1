@@ -1,10 +1,17 @@
+//------------------------------------------------------------------------------
+//
+// File Name:	StubScene.c
+// Author(s):	Leo Mauya  0069791
+// Project:		Project 0
+// Course:		CS230S26
+//
+// Copyright © 2026 DigiPen (USA) Corporation.
+//
+//------------------------------------------------------------------------------
 #include "stdafx.h"
 #include "Stream.h"
 #include "Vector2D.h"
 #include "Trace.h"
-
-
-
 
 
 

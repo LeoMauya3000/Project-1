@@ -2,7 +2,7 @@
 //
 // File Name:	SandBoxScene.c
 // Author(s):	Leo Mauya  0069791
-// Project:		Project 0
+// Project:		Project 1
 // Course:		CS230S26
 //
 // Copyright © 2026 DigiPen (USA) Corporation.
@@ -68,7 +68,7 @@ static void SandboxSceneTraceVector(const char* text, const Vector2D* v);
 static SandBoxScene instance =
 {
 	// Initialize the base structure:
-	{ "Stub", SandBoxSceneLoad, SandBoxSceneInit, SandBoxSceneUpdate, SandBoxSceneRender, SandBoxSceneExit, SandBoxSceneUnload },
+	{ "Sandbox", SandBoxSceneLoad, SandBoxSceneInit, SandBoxSceneUpdate, SandBoxSceneRender, SandBoxSceneExit, SandBoxSceneUnload },
 
 	// Initialize any scene-specific variables:
 };
@@ -111,8 +111,8 @@ static void SandBoxSceneUpdate(float dt)
 	// Tell the compiler that the 'dt' variable is unused.
 	UNREFERENCED_PARAMETER(dt);
 	Vector2D vec1;
-	
 	float scale;
+	float angle;
 
 	vectorFile = StreamOpen("Data/VectorTests.txt");
 	if (vectorFile)
@@ -127,7 +127,7 @@ static void SandBoxSceneUpdate(float dt)
 		Vector2DAdd(&vec1, &vec1, &vec1);
 		SandboxSceneTraceVector("Vector2DAdd", &vec1);
 		Vector2DSub(&vec1, &vec1, &vec1);
-		SandboxSceneTraceVector("Vector2Sub", &vec1);
+		SandboxSceneTraceVector("Vector2DSub", &vec1);
 		StreamReadVector2D(vectorFile, &vec1);
 		SandboxSceneTraceVector("StreamReadVector2D", &vec1);
 		Vector2DNormalize(&vec1, &vec1);
@@ -137,18 +137,33 @@ static void SandBoxSceneUpdate(float dt)
 		Vector2DScale(&vec1, &vec1, scale);
 		SandboxSceneTraceVector("Vector2DScale", &vec1);
 		Vector2DScaleAdd(&vec1, &vec1,scale,&vec1);
-		SandboxSceneTraceVector("Vector2DAdd", &vec1);
+		SandboxSceneTraceVector("Vector2DScaleAdd", &vec1);
 		Vector2DScaleSub(&vec1, &vec1, scale, &vec1);
-		SandboxSceneTraceVector("Vector2DSub", &vec1);
-		SandboxSceneTraceFloat("Vector2DDistance", Vector2DLength(&vec1));
+		SandboxSceneTraceVector("Vector2DScaleSub", &vec1);
+		SandboxSceneTraceFloat("Vector2DLength", Vector2DLength(&vec1));
 		SandboxSceneTraceFloat("Vector2DSquareLength", Vector2DSquareLength(&vec1));
 		Vector2D vec2;
 		StreamReadVector2D(vectorFile, &vec2);
 		StreamReadVector2D(vectorFile, &vec1);
+		SandboxSceneTraceVector("StreamReadVector2D", &vec2);
+		SandboxSceneTraceVector("StreamReadVector2D", &vec1);
 		SandboxSceneTraceFloat("Vector2DDistance", Vector2DDistance(&vec1, &vec2));
-		SandboxSceneTraceFloat("Vector2DDistance", Vector2DSquareDistance(&vec1, &vec2));
-		SandboxSceneTraceFloat("Vector2DDistance", Vector2DDotProduct(&vec1, &vec2));
-		SandboxSceneTraceFloat("StreamReadFloat ", StreamReadFloat(vectorFile));
+		SandboxSceneTraceFloat("Vector2DSquareDistance", Vector2DSquareDistance(&vec1, &vec2));
+		SandboxSceneTraceFloat("Vector2DDotProduct", Vector2DDotProduct(&vec2, &vec1));
+		angle = StreamReadFloat(vectorFile);
+		SandboxSceneTraceFloat("StreamReadFloat", angle);
+		Vector2DFromAngleDeg(&vec1, angle);
+		SandboxSceneTraceVector("Vector2DFromAngleDeg", &vec1);
+		angle = StreamReadFloat(vectorFile);
+		Vector2DFromAngleRad(&vec1, angle);
+		SandboxSceneTraceFloat("StreamReadFloat", angle);
+		SandboxSceneTraceVector("Vector2DFromAngleRad", &vec1);
+		SandboxSceneTraceFloat("Vector2DToAngleRad", angle);
+		
+
+		
+		
+
 
 
 

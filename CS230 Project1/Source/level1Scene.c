@@ -2,7 +2,7 @@
 //
 // File Name:	StubScene.c
 // Author(s):	Leo Mauya  0069791
-// Project:		Project 0
+// Project:		Project 1
 // Course:		CS230S26
 //
 // Copyright © 2026 DigiPen (USA) Corporation.
@@ -107,7 +107,8 @@ static void Level1SceneUpdate(float dt)
 {
 	// Tell the compiler that the 'dt' variable is unused.
 	UNREFERENCED_PARAMETER(dt);
-	instance.numLives -=1;
+	instance.numLives--;
+
 	if(instance.numLives <= 0)
 	{
 		SceneSystemSetNext(level2SceneGetInstance());

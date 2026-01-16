@@ -1,3 +1,14 @@
+//------------------------------------------------------------------------------
+//
+// File Name:	StubScene.c
+// Author(s):	Leo Mauya  0069791
+// Project:		Project 0
+// Course:		CS230S26
+//
+// Copyright © 2026 DigiPen (USA) Corporation.
+//
+//------------------------------------------------------------------------------
+
 #include "stdafx.h"
 #include "Vector2D.h"
 #define _USE_MATH_DEFINES
@@ -77,21 +88,22 @@ float Vector2DSquareDistance(const Vector2D* pVec0, const Vector2D* pVec1)
 }
 float Vector2DDotProduct(const Vector2D* pVec0, const Vector2D* pVec1)
 {
-	float dotProd = (pVec0->x * pVec1->x) + (pVec0->y + pVec1->y);
+	float dotProd = (pVec0->x * pVec1->x) + (pVec0->y * pVec1->y);
 	return dotProd;
 }
 void Vector2DFromAngleDeg(Vector2D* pResult, float angle)
 {
-	pResult->x = cosf(angle);
-	pResult->y = sinf(angle);
+	float radians = (float)(angle * M_PI) / 180.0f;
+	pResult->x = cosf(radians);
+	pResult->y = sinf(radians);
 
 
 }
 void Vector2DFromAngleRad(Vector2D* pResult, float angle)
 {
-	float radians = (float)(angle * M_PI) / 180.0f;
-	pResult->x = cosf(radians);
-	pResult->y = sinf(radians);
+	
+	pResult->x = cosf(angle);
+	pResult->y = sinf(angle);
 }
 float Vector2DToAngleRad(const Vector2D* pVec)
 {

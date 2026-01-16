@@ -2,7 +2,7 @@
 //
 // File Name:	StubScene.c
 // Author(s):	Leo Mauya  0069791
-// Project:		Project 0
+// Project:		Project 1
 // Course:		CS230S26
 //
 // Copyright © 2026 DigiPen (USA) Corporation.
@@ -63,7 +63,7 @@ static Stream streamFileHealth;
 static level2Scene instance =
 {
 	// Initialize the base structure:
-	{ "Stub", level2SceneLoad, level2SceneInit, level2SceneUpdate, level2SceneRender, level2SceneExit, level2SceneUnload },0,0
+	{ "Level2", level2SceneLoad, level2SceneInit, level2SceneUpdate, level2SceneRender, level2SceneExit, level2SceneUnload },0,0
 
 	// Initialize any scene-specific variables:
 };
@@ -89,7 +89,7 @@ static void level2SceneLoad(void)
 {
 	streamFileLives = StreamOpen("Data/Level2_Lives.txt");
 
-	if (&streamFileLives)
+	if (streamFileLives)
 	{
 
 		instance.numLives = StreamReadInt(streamFileLives);
@@ -116,14 +116,15 @@ static void level2SceneUpdate(float dt)
 	// Tell the compiler that the 'dt' variable is unused.
 	UNREFERENCED_PARAMETER(dt);
 
-	instance.numHealth -= 1;
+	instance.numHealth--;
+
 	if (instance.numHealth <= 0)
 	{
-		instance.numLives -=1 ;
+		instance.numLives--;
 
 		if (instance.numLives > 0)
 		{
-			SceneSystemRestart();
+			SceneRestart();
 		}
 		else
 		{
