@@ -50,7 +50,7 @@ typedef struct Scene Scene;
 // Get the instance of the Stub Scene.
 // Returns:
 //	 Pointer to the base Scene structure for this derived Scene.
-const Scene* StubSceneGetInstance(void);
+const Scene* level2SceneGetInstance(void);
 
 //------------------------------------------------------------------------------
 

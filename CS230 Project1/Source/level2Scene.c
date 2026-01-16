@@ -10,10 +10,11 @@
 //------------------------------------------------------------------------------
 
 #include "stdafx.h"
-
 #include "Scene.h"
 #include "SceneSystem.h"
-#include "StubScene.h"
+#include "level2Scene.h"
+#include "Stream.h"
+#include "SandboxScene.h"
 
 //------------------------------------------------------------------------------
 // Private Constants:
@@ -23,14 +24,16 @@
 // Private Structures:
 //------------------------------------------------------------------------------
 
-typedef struct StubScene
+typedef struct level2Scene
 {
 	// WARNING: The base class must always be included first.
 	Scene	base;
+	int numLives;
+	int numHealth;
 
 	// Add any scene-specific variables second.
 
-} StubScene;
+} level2Scene;
 
 //------------------------------------------------------------------------------
 // Public Variables:
@@ -44,21 +47,23 @@ typedef struct StubScene
 // Private Function Declarations:
 //------------------------------------------------------------------------------
 
-static void StubSceneLoad(void);
-static void StubSceneInit(void);
-static void StubSceneUpdate(float dt);
-static void StubSceneExit(void);
-static void StubSceneUnload(void);
-static void StubSceneRender(void);
+static void level2SceneLoad(void);
+static void level2SceneInit(void);
+static void level2SceneUpdate(float dt);
+static void level2SceneExit(void);
+static void level2SceneUnload(void);
+static void level2SceneRender(void);
+static Stream streamFileLives;
+static Stream streamFileHealth;
 
 //------------------------------------------------------------------------------
 // Instance Variable:
 //------------------------------------------------------------------------------
 
-static StubScene instance =
+static level2Scene instance =
 {
 	// Initialize the base structure:
-	{ "Stub", StubSceneLoad, StubSceneInit, StubSceneUpdate, StubSceneRender, StubSceneExit, StubSceneUnload },
+	{ "Stub", level2SceneLoad, level2SceneInit, level2SceneUpdate, level2SceneRender, level2SceneExit, level2SceneUnload },0,0
 
 	// Initialize any scene-specific variables:
 };
@@ -70,7 +75,7 @@ static StubScene instance =
 // Get the instance of the Stub Scene.
 // Returns:
 //	 Pointer to the base Scene structure for this derived Scene.
-const Scene* StubSceneGetInstance(void)
+const Scene* level2SceneGetInstance(void)
 {
 	return &(instance.base);
 }
@@ -80,40 +85,74 @@ const Scene* StubSceneGetInstance(void)
 //------------------------------------------------------------------------------
 
 // Load any resources used by the scene.
-static void StubSceneLoad(void)
+static void level2SceneLoad(void)
 {
+	streamFileLives = StreamOpen("Data/Level2_Lives.txt");
+
+	if (&streamFileLives)
+	{
+
+		instance.numLives = StreamReadInt(streamFileLives);
+		StreamClose(&streamFileLives);
+
+	}
+
 }
 
 // Initialize the entities and variables used by the scene.
-static void StubSceneInit()
+static void level2SceneInit()
 {
+	streamFileHealth = StreamOpen("Data/Level2_Health.txt");
+	instance.numHealth = StreamReadInt(streamFileLives);
+
+
 }
 
 // Update the the variables used by the scene.
 // Params:
 //	 dt = Change in time (in seconds) since the last game loop.
-static void StubSceneUpdate(float dt)
+static void level2SceneUpdate(float dt)
 {
 	// Tell the compiler that the 'dt' variable is unused.
 	UNREFERENCED_PARAMETER(dt);
 
+	instance.numHealth -= 1;
+	if (instance.numHealth <= 0)
+	{
+		instance.numLives -=1 ;
+
+		if (instance.numLives > 0)
+		{
+			SceneSystemRestart();
+		}
+		else
+		{
+			SceneSystemSetNext(SandBoxSceneGetInstance());
+		}
+	}
+
+
 	// NOTE: This call causes the engine to exit immediately.  Make sure to remove
 	//   it when you are ready to test out a new scene.
-	SceneSystemSetNext(NULL);
+	
 }
 
 // Render any objects associated with the scene.
-void StubSceneRender(void)
+void level2SceneRender(void)
 {
+
+
 }
 
 // Free any objects associated with the scene.
-static void StubSceneExit()
+static void level2SceneExit()
 {
+
 }
 
 // Unload any resources used by the scene.
-static void StubSceneUnload(void)
+static void level2SceneUnload(void)
 {
+
 }
 

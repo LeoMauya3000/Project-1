@@ -10,10 +10,11 @@
 //------------------------------------------------------------------------------
 
 #include "stdafx.h"
-
+#include "level2Scene.h"
 #include "Scene.h"
 #include "SceneSystem.h"
 #include "StubScene.h"
+#include "stream.h"
 
 //------------------------------------------------------------------------------
 // Private Constants:
@@ -23,18 +24,20 @@
 // Private Structures:
 //------------------------------------------------------------------------------
 
-typedef struct StubScene
+typedef struct Level1Scene
 {
 	// WARNING: The base class must always be included first.
 	Scene	base;
+	int numLives;
 
 	// Add any scene-specific variables second.
 
-} StubScene;
+} Level1Scene;
 
 //------------------------------------------------------------------------------
 // Public Variables:
 //------------------------------------------------------------------------------
+
 
 //------------------------------------------------------------------------------
 // Private Variables:
@@ -58,8 +61,8 @@ static void Level1SceneRender(void);
 static Level1Scene instance =
 {
 	// Initialize the base structure:
-	{ "Level1", Level1SceneLoad, Level1SceneInit, Level1SceneUpdate, Level1SceneRender, Level1SceneExit, Level1SceneUnload },
-
+	{ "Level1", Level1SceneLoad, Level1SceneInit, Level1SceneUpdate, Level1SceneRender, Level1SceneExit, Level1SceneUnload},0 
+	
 	// Initialize any scene-specific variables:
 };
 
@@ -82,6 +85,14 @@ const Scene* Level1SceneGetInstance(void)
 // Load any resources used by the scene.
 static void Level1SceneLoad(void)
 {
+	Stream streamFile = StreamOpen("Data/Level1_Lives.txt");
+
+	if (&streamFile)
+	{
+		instance.numLives = StreamReadInt(streamFile);
+		StreamClose(&streamFile);
+		
+	}
 }
 
 // Initialize the entities and variables used by the scene.
@@ -96,10 +107,15 @@ static void Level1SceneUpdate(float dt)
 {
 	// Tell the compiler that the 'dt' variable is unused.
 	UNREFERENCED_PARAMETER(dt);
-
+	instance.numLives -=1;
+	if(instance.numLives <= 0)
+	{
+		SceneSystemSetNext(level2SceneGetInstance());
+	    
+	}
 	// NOTE: This call causes the engine to exit immediately.  Make sure to remove
 	//   it when you are ready to test out a new scene.
-	SceneSystemSetNext(NULL);
+	
 }
 
 // Render any objects associated with the scene.

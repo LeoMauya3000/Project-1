@@ -95,6 +95,11 @@ void Vector2DFromAngleRad(Vector2D* pResult, float angle)
 }
 float Vector2DToAngleRad(const Vector2D* pVec)
 {
+	if(pVec == NULL)
+	{
+		return 0.0f;
+	}
+
 	float angle = atan2f(pVec->y, pVec->x);
 	return (float)(angle * M_PI) / 180.0f;
 }

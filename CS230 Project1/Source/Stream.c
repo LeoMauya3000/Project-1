@@ -33,15 +33,36 @@ Stream StreamOpen(const char* filePath)
 
 int StreamReadInt(Stream stream)
 {
-	fscanf_s(stream, "%d", &integerRead);
-	return integerRead;
+
+	if (stream != NULL)
+	{
+
+
+		fscanf_s(stream, "%d", &integerRead);
+		return integerRead;
+	} 
+	else
+	{
+		return 0;
+	}
+	
 }
 
 
 float StreamReadFloat(Stream stream)
 {
-	fscanf_s(stream, "%f", &floatRead);
-	return floatRead;
+
+	if (stream != NULL)
+	{
+		fscanf_s(stream, "%f", &floatRead);
+		return floatRead;
+
+	} 
+	else
+	{
+		return 0;
+	}
+	
 }
 void StreamReadVector2D(Stream stream, Vector2D* vector)
 {

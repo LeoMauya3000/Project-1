@@ -19,6 +19,8 @@
 #include "SceneSystem.h"
 #include "StubScene.h"
 #include "Trace.h"
+#include "level1Scene.h"
+#include "SandboxScene.h"
 
 //------------------------------------------------------------------------------
 // Libraries
@@ -132,7 +134,7 @@ static bool SceneSystemInit(void)
 {
 	// Set the starting (Default) scene.
 	// TODO: Change the starting (Default) scene from "Stub" to "Demo":
-	SceneSystemSetNext(DemoSceneGetInstance());
+	SceneSystemSetNext(Level1SceneGetInstance());
 
 	return true;
 }
